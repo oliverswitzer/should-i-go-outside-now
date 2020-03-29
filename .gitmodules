@@ -1,0 +1,3 @@
+[submodule "places-api"]
+	path = places-api
+	url = git@github.com:oliverswitzer/places-api.git
