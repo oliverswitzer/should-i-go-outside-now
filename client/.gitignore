@@ -1,6 +1,7 @@
 # OSX
 #
 .DS_Store
+.env
 
 # Xcode
 #
@@ -57,4 +58,3 @@ buck-out/
 
 # CocoaPods
 /ios/Pods/
-.idea
