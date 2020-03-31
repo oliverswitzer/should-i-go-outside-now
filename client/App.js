@@ -30,10 +30,20 @@ const Header = () => <Text style={{ fontSize: 20, padding: 12 }}>Top Places Near
 
 const Place = ({ item }) => <View style={{ borderColor: 'gray', borderWidth: 1, padding: 12, margin: 12, marginBottom: 0 }}>
   <Text style={{fontWeight: 'bold', fontSize: 12}}>{item.name}</Text>
-  <Text>{item.id}</Text>
-  <Text>{JSON.stringify(item.types)}</Text>
+  <Text>Rating: {item.rating}</Text>
   <View style={{flexDirection: 'row', alignItems: 'flex-end', justifyContent: 'space-between'}}>
-    {item.populartimes[0].data.map((popularity) => <View><View style={{height: popularity, marginRight: 4, backgroundColor: 'blue', fontSize: 2}}/><Text>{popularity}</Text></View>)}
+    {
+      item.populartimes[1].data.map((popularity, index) => (
+        <View>
+          {popularity !== 0 && (
+            <>
+              <View style={{height: popularity, marginRight: 5, backgroundColor: 'blue', fontSize: 2}}/>
+              <Text>{index}</Text>
+            </>
+          )}
+        </View>
+      ))
+    }
   </View>
 </View>;
 
