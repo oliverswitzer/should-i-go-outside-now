@@ -1,5 +1,6 @@
 import axios from "axios";
 import { PLACES_API_TOKEN } from 'react-native-dotenv'
+import { fixtureData } from "./fixture";
 // import { fixtureData } from "./fixture";
 
 class Gateway {
@@ -11,8 +12,9 @@ class Gateway {
   });
 
   getPlace = (id) =>
-    this._a.get(`/places/${id}`)
-      .then(response => response.data)
+    Promise.resolve(fixtureData[id])
+    // this._a.get(`/places/${id}`)
+    //   .then(response => response.data)
 
 }
 
