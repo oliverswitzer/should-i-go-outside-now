@@ -1,9 +1,10 @@
 import React, { useEffect, useState } from 'react';
 import { SafeAreaView, SectionList, Text, View } from 'react-native';
-import { gateway } from "./Gateway";
+import { gateway, PlaceType } from "./Gateway";
+
 
 const App = () => {
-  const [places, setPlaces] = useState([]);
+  const [places, setPlaces] = useState<PlaceType[]>([]);
 
   useEffect(() => {
     const fetchData = async () => {
@@ -19,7 +20,7 @@ const App = () => {
 
   return <SafeAreaView>
     <SectionList
-      renderItem={({ item, index }) => <Place item={item} key={index} />}
+      renderItem={({ item, index }: { item: PlaceType, index: number}) => <Place item={item} key={index} />}
       renderSectionHeader={() => <Header/>}
       sections={[{ data: places }]}
     />
@@ -28,16 +29,16 @@ const App = () => {
 
 const Header = () => <Text style={{ fontSize: 20, padding: 12 }}>Top Places Near You</Text>;
 
-const Place = ({ item }) => <View style={{ borderColor: 'gray', borderWidth: 1, padding: 12, margin: 12, marginBottom: 0 }}>
+const Place = ({ item }: { item: PlaceType }) => <View style={{ borderColor: 'gray', borderWidth: 1, padding: 12, margin: 12, marginBottom: 0 }}>
   <Text style={{fontWeight: 'bold', fontSize: 12}}>{item.name}</Text>
   <Text>Rating: {item.rating}</Text>
   <View style={{flexDirection: 'row', alignItems: 'flex-end', justifyContent: 'space-between'}}>
     {
-      item.populartimes[1].data.map((popularity, index) => (
-        <View>
+      item.populartimes[1].data.map((popularity: number, index: number) => (
+        <View key={index}>
           {popularity !== 0 && (
             <>
-              <View style={{height: popularity, marginRight: 5, backgroundColor: 'blue', fontSize: 2}}/>
+              <View style={{ height: popularity, marginRight: 5, backgroundColor: 'blue' }}/>
               <Text>{index}</Text>
             </>
           )}
