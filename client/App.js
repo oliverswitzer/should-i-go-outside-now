@@ -19,7 +19,7 @@ const App = () => {
 
   return <SafeAreaView>
     <SectionList
-      renderItem={({ item }) => <Place item={item}/>}
+      renderItem={({ item, index }) => <Place item={item} key={index} />}
       renderSectionHeader={() => <Header/>}
       sections={[{ data: places }]}
     />
