@@ -12,7 +12,8 @@
   "dependencies": {
     "axios": "^0.19.2",
     "react": "16.11.0",
-    "react-native": "0.62.0"
+    "react-native": "0.62.0",
+    "react-native-swiper": "^1.6.0"
   },
   "devDependencies": {
     "@babel/core": "^7.6.2",
