@@ -1,5 +1,5 @@
-import React, { Component, useEffect, useState } from 'react';
-import { Picker, SafeAreaView, SectionList, Text, View } from 'react-native';
+import React, { useEffect, useState } from 'react';
+import { SafeAreaView, SectionList, Text, View } from 'react-native';
 import { gateway, PlaceType } from './Gateway';
 import Swiper from 'react-native-swiper'
 
