@@ -1,8 +1,13 @@
+@import GooglePlaces;
+@import GoogleMaps;
+
 #import "AppDelegate.h"
 
 #import <React/RCTBridge.h>
 #import <React/RCTBundleURLProvider.h>
 #import <React/RCTRootView.h>
+
+#import <Keys/ClientKeys.h>
 
 #if DEBUG
 #import <FlipperKit/FlipperClient.h>
@@ -30,6 +35,9 @@ static void InitializeFlipper(UIApplication *application) {
 #if DEBUG
   InitializeFlipper(application);
 #endif
+  ClientKeys *keys = [[ClientKeys alloc] init];
+  [GMSPlacesClient provideAPIKey:keys.iOS_GOOGLE_MAPS_API_KEY];
+  [GMSServices provideAPIKey:keys.iOS_GOOGLE_MAPS_API_KEY];
 
   RCTBridge *bridge = [[RCTBridge alloc] initWithDelegate:self launchOptions:launchOptions];
   RCTRootView *rootView = [[RCTRootView alloc] initWithBridge:bridge

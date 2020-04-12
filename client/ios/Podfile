@@ -21,6 +21,13 @@ def flipper_post_install(installer)
   end
 end
 
+plugin 'cocoapods-keys', {
+  :project => "Client",
+  :keys => [
+    "IOS_GOOGLE_MAPS_API_KEY"
+  ]
+}
+
 target 'client' do
   # Pods for client
   pod 'FBLazyVector', :path => "../node_modules/react-native/Libraries/FBLazyVector"
@@ -54,6 +61,8 @@ target 'client' do
   pod 'glog', :podspec => '../node_modules/react-native/third-party-podspecs/glog.podspec'
   pod 'Folly', :podspec => '../node_modules/react-native/third-party-podspecs/Folly.podspec'
 
+  pod 'react-native-google-places', :path => '../node_modules/react-native-google-places'
+
   target 'clientTests' do
     inherit! :complete
     # Pods for testing
@@ -67,6 +76,17 @@ target 'client' do
   # you should disable these next few lines.
   add_flipper_pods!
   post_install do |installer|
+    installer.pods_project.targets.each do |target|
+      if target.name == 'react-native-google-places'
+        target.build_configurations.each do |config|
+          config.build_settings['CLANG_ENABLE_MODULES'] = 'No'
+        end
+      end
+      if target.name == "React"
+        target.remove_from_project
+      end
+    end
+
     flipper_post_install(installer)
   end
 end

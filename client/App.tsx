@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { SafeAreaView, SectionList, Text, View } from 'react-native';
 import { gateway, PlaceType } from './Gateway';
 import Swiper from 'react-native-swiper'
+import RNGooglePlaces from 'react-native-google-places';
 
 export const App = () => {
   const [places, setPlaces] = useState<PlaceType[]>([]);
@@ -18,6 +19,8 @@ export const App = () => {
     };
     fetchData()
   }, []);
+
+  RNGooglePlaces.openAutocompleteModal().then(place => console.log(place));
 
   return (
     <Swiper style={{}} showsButtons={true}>
