@@ -2,13 +2,30 @@ import React, { useEffect, useState } from 'react';
 import { SafeAreaView, SectionList, Text, View } from 'react-native';
 import { gateway, PlaceType } from './Gateway';
 import Swiper from 'react-native-swiper'
-// import RNGooglePlaces from 'react-native-google-places';
+import RNGooglePlaces from 'react-native-google-places';
+import Geolocation from '@react-native-community/geolocation';
 
 export const App = () => {
   const [places, setPlaces] = useState<PlaceType[]>([]);
   const days = ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday', 'Sunday'];
 
   useEffect(() => {
+    Geolocation.getCurrentPosition(info => {
+      const x = info.coords.latitude;
+      const y = info.coords.longitude;
+
+      RNGooglePlaces.openAutocompleteModal({
+        initialQuery: 'vestar',
+        locationRestriction: {
+          latitudeSW: x-0.01,
+          longitudeSW: y-0.01,
+          latitudeNE: x+0.01,
+          longitudeNE: y+0.01
+        },
+      }).then(place => console.log(place));
+    });
+
+
     const fetchData = async () => {
       const mrPlum = await gateway.getPlace('ChIJ4RQESkRZwokRzOSbHg_AHd8');
       const associated = await gateway.getPlace('ChIJ-VYyzkZZwokRLaDlVih5Qzs');
@@ -19,8 +36,6 @@ export const App = () => {
     };
     fetchData()
   }, []);
-
-  // RNGooglePlaces.openAutocompleteModal().then(place => console.log(place));
 
   return (
     <Swiper style={{}} showsButtons={true}>
