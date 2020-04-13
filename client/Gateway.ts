@@ -22,13 +22,15 @@ export type PlaceType = {
 class Gateway {
   _a = axios.create({
     baseURL: 'https://corona-errands-helper.herokuapp.com',
-    timeout: 1000,
+    timeout: 5000,
     headers: {'Authorization': `Token ${PLACES_API_TOKEN}`}
   });
 
   getPlace = (id: string): Promise<PlaceType> => {
-    const data: any = fixtureData;
-    return Promise.resolve(data[id])
+    return this._a.get(`/places/${id}`)
+      .then(response => response.data)
+    // const data: any = fixtureData;
+    // return Promise.resolve(data[id])
   }
     // this._a.get(`/places/${id}`)
     //   .then(response => response.data)

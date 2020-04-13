@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { SafeAreaView, SectionList, Text, View } from 'react-native';
+import { Alert, SafeAreaView, SectionList, Text, View } from 'react-native';
 import { gateway, PlaceType } from './Gateway';
 import Swiper from 'react-native-swiper'
 import RNGooglePlaces from 'react-native-google-places';
@@ -15,26 +15,34 @@ export const App = () => {
       const y = info.coords.longitude;
 
       RNGooglePlaces.openAutocompleteModal({
-        initialQuery: 'vestar',
+        initialQuery: 'groceries',
         locationRestriction: {
           latitudeSW: x-0.01,
           longitudeSW: y-0.01,
           latitudeNE: x+0.01,
           longitudeNE: y+0.01
         },
-      }).then(place => console.log(place));
+      }, ['placeID']).then(async (foundPlace) => {
+        const place = await gateway.getPlace(foundPlace.placeID);
+
+        if(!place.populartimes) {
+          Alert.alert('Choose another place', 'There is no popularity data available for that location. Please choose another place');
+        } else {
+          setPlaces([place])
+        }
+      });
     });
 
 
-    const fetchData = async () => {
-      const mrPlum = await gateway.getPlace('ChIJ4RQESkRZwokRzOSbHg_AHd8');
-      const associated = await gateway.getPlace('ChIJ-VYyzkZZwokRLaDlVih5Qzs');
-      const met = await gateway.getPlace('ChIJGfDg705ZwokRvqa_3iQAPsQ');
-      const chase = await gateway.getPlace('ChIJ_2Ukz0ZZwokRJZSgVQYl2eo');
-
-      setPlaces([associated, met, mrPlum, chase])
-    };
-    fetchData()
+    // const fetchData = async () => {
+    //   const mrPlum = await gateway.getPlace('ChIJ4RQESkRZwokRzOSbHg_AHd8');
+    //   const associated = await gateway.getPlace('ChIJ-VYyzkZZwokRLaDlVih5Qzs');
+    //   const met = await gateway.getPlace('ChIJGfDg705ZwokRvqa_3iQAPsQ');
+    //   const chase = await gateway.getPlace('ChIJ_2Ukz0ZZwokRJZSgVQYl2eo');
+    //
+    //   setPlaces([associated, met, mrPlum, chase])
+    // };
+    // fetchData()
   }, []);
 
   return (
