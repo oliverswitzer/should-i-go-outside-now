@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { SafeAreaView, SectionList, Text, View } from 'react-native';
+import { Alert, SafeAreaView, SectionList, Text, View } from 'react-native';
 import { gateway, PlaceType } from './Gateway';
 import Swiper from 'react-native-swiper'
 import RNGooglePlaces from 'react-native-google-places';
@@ -9,18 +9,26 @@ export const App = () => {
   const days = ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday', 'Sunday'];
 
   useEffect(() => {
-    const fetchData = async () => {
-      const mrPlum = await gateway.getPlace('ChIJ4RQESkRZwokRzOSbHg_AHd8');
-      const associated = await gateway.getPlace('ChIJ-VYyzkZZwokRLaDlVih5Qzs');
-      const met = await gateway.getPlace('ChIJGfDg705ZwokRvqa_3iQAPsQ');
-      const chase = await gateway.getPlace('ChIJ_2Ukz0ZZwokRJZSgVQYl2eo');
+    // const fetchData = async () => {
+    //   const mrPlum = await gateway.getPlace('ChIJ4RQESkRZwokRzOSbHg_AHd8');
+    //   const associated = await gateway.getPlace('ChIJ-VYyzkZZwokRLaDlVih5Qzs');
+    //   const met = await gateway.getPlace('ChIJGfDg705ZwokRvqa_3iQAPsQ');
+    //   const chase = await gateway.getPlace('ChIJ_2Ukz0ZZwokRJZSgVQYl2eo');
+    //
+    //   setPlaces([associated, met, mrPlum, chase])
+    // };
+    RNGooglePlaces.openAutocompleteModal({
+      type: 'establishment',
+    }).then(async (foundPlace) => {
+      const place = await gateway.getPlace(foundPlace.placeID);
 
-      setPlaces([associated, met, mrPlum, chase])
-    };
-    fetchData()
+      if (!place.populartimes) {
+        Alert.alert('Choose another place', 'There is no popularity data available for that location. Please choose another location');
+      } else {
+        setPlaces([place])
+      }
+    });
   }, []);
-
-  RNGooglePlaces.openAutocompleteModal().then(place => console.log(place));
 
   return (
     <Swiper style={{}} showsButtons={true}>

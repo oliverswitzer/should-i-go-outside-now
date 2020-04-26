@@ -27,12 +27,11 @@ class Gateway {
   });
 
   getPlace = (id: string): Promise<PlaceType> => {
-    const data: any = fixtureData;
-    return Promise.resolve(data[id])
+    // const data: any = fixtureData;
+    // return Promise.resolve(data[id])
+    return this._a.get(`/places/${id}`)
+      .then(response => response.data)
   }
-    // this._a.get(`/places/${id}`)
-    //   .then(response => response.data)
-
 }
 
 export const gateway = new Gateway();
